@@ -9,5 +9,8 @@ const about_me = document.getElementById("about_me");
 
 window.addEventListener("scroll", function () {
   const value = window.scrollY;
-  sun.style.top = -value * 0.5 + 'px';
+//   bg.style.top = value * 0.5 + 'px';
+  mountain.style.top = -value * 0.15 + 'px';
+  road.style.top = value * 0.15 + 'px';
+    
 });
