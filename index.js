@@ -1,9 +1,10 @@
-const sun = document.getElementById("sun");
-const moon = document.getElementById("moon");
+// const sun = document.getElementById("sun");
+// const moon = document.getElementById("moon");
 
-const mountains = document.getElementById("mountains");
-const water = document.getElementById("water");
-const sands = document.getElementById("sands");
+const bg = document.getElementById("bg");
+const mountain = document.getElementById("mountain");
+const road = document.getElementById("road");
+
 const about_me = document.getElementById("about_me");
 
 window.addEventListener("scroll", function () {
