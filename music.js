@@ -1,6 +1,11 @@
+// "use strict";
+
 const COLORS = {
     main: "rgba(245, 215, 110, 1)"
 }
+
+const canvas = document.getElementById("player-canvas");
+const audio = document.getElementById("player-audio");
 
 const INITIAL = {
     bars: 150,
@@ -10,27 +15,7 @@ const INITIAL = {
     lineColor: COLORS.main,
 }
 
-const initAudioPlayer = (musicSrc, canvasRef, setColor, audioRef) => {
-    const audio = audioRef.current;
-    window.AudioContext = window.AudioContext || (window).webkitAudioContext;
-    const context = new window.AudioContext();
-    audio.src = musicSrc;
-    
-    audio.addEventListener('loadeddata', async () => {
-        const source = await context.createMediaElementSource(audio);
-        const analyser = await context.createAnalyser();
-        const frequency_array = new Uint8Array(analyser.frequencyBinCount);
-        audio.play();
-        
-        source.connect(analyser);
-        analyser.connect(context.destination);
-        
-        animationLooper(canvasRef, analyser, frequency_array, setColor);
-    }, false);
-    audio.addEventListener('ended', () => audio.play());
-}
-
-function animationLooper(canvasRef, analyser, frequency_array, setColor) {
+function animationLooper(analyser, frequency_array) {
     const ctx = canvas.getContext("2d");
     const center_x = INITIAL.canvasWidth / 2;
     const center_y = INITIAL.canvasHeight / 2;
@@ -59,16 +44,16 @@ function animationLooper(canvasRef, analyser, frequency_array, setColor) {
         if (randomRadius < 36) {
             INITIAL.bar_width = 1
             INITIAL.lineColor = COLORS.main
-            setColor(COLORS.main);
+            COLORS.main = COLORS.main
 
         } else if (randomRadius > 36 && randomRadius < 46) {
             INITIAL.bar_width = 3
             INITIAL.lineColor = 'blue'
-            setColor('blue');
+            COLORS.main = 'blue'
         } else {
             INITIAL.bar_width = 5
             INITIAL.lineColor = 'green'
-            setColor('green');
+            COLORS.main = 'green'
         }
 
         const _center_x = center_x;
@@ -84,7 +69,7 @@ function animationLooper(canvasRef, analyser, frequency_array, setColor) {
         drawBar(x, y, x_end, y_end, ctx);
 
     }
-    window.requestAnimationFrame(() => animationLooper(canvasRef, analyser, frequency_array, setColor));
+    window.requestAnimationFrame(() => animationLooper(analyser, frequency_array));
 
 }
 
@@ -96,3 +81,21 @@ function drawBar(x1, y1, x2, y2, ctx) {
     ctx.lineTo(x2, y2);
     ctx.stroke();
 }
+
+(initAudioPlayer = () => {
+    window.AudioContext = window.AudioContext || (window).webkitAudioContext;
+    const context = new window.AudioContext();
+    
+    audio.addEventListener('loadeddata', async () => {
+        const source = await context.createMediaElementSource(audio);
+        const analyser = await context.createAnalyser();
+        const frequency_array = new Uint8Array(analyser.frequencyBinCount);
+        audio.play();
+        
+        source.connect(analyser);
+        analyser.connect(context.destination);
+        
+        animationLooper(analyser, frequency_array);
+    }, false);
+    audio.addEventListener('ended', () => audio.play());
+})()

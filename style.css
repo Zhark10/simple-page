@@ -64,3 +64,11 @@ section img, #bg, #moon {
 ::-webkit-scrollbar {
   display: none;
 }
+
+.player {
+  height: 15vw;
+  width: 13vw;
+  background: #000;
+  cursor: pointer;
+  z-index: 999999;
+}
