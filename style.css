@@ -65,7 +65,7 @@ section img, #bg, #moon {
   display: none;
 }
 
-.player {
+#player {
   height: 15vw;
   width: 13vw;
   background: #000;
